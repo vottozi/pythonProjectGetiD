@@ -6,14 +6,14 @@ from . import parser, models, forms
 
 class ParserView(ListView):
     model = models.TvParser
-    template_name = 'film_list.html'
+    template_name = 'tires_list.html'
 
     def get_queryset(self):
         return models.TvParser.objects.all()
 
 
 class ParserFormView(FormView):
-    template_name = 'parser_film.html'
+    template_name = 'parser_tire.html'
     form_class = forms.ParserForm
 
     def post(self, request, *args, **kwargs):

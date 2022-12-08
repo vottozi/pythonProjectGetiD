@@ -3,7 +3,7 @@ from . import parser, models
 
 class ParserForm(forms.Form):
     MEDIA_CHOICES = (
-        ('FILMS_KG', "FILMS_KG"),
+        ('WINTER_TIRES', "WINTER_TIRES"),
     )
     media_type = forms.ChoiceField(choices=MEDIA_CHOICES)
 
@@ -13,7 +13,7 @@ class ParserForm(forms.Form):
         ]
 
     def parser_data(self):
-        if self.data['media_type'] == "FILMS_KG":
-            film_parser = parser.parser()
-            for i in film_parser:
+        if self.data['media_type'] == "WINTER_TIRES":
+            tires_parser = parser.parser()
+            for i in tires_parser:
                 models.TvParser.objects.create(**i)

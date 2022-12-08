@@ -2,8 +2,8 @@ import requests
 from bs4 import BeautifulSoup as BS
 from django.views.decorators.csrf import csrf_exempt
 
-HOST = "http://www.manascinema.com/"
-URL = "http://www.manascinema.com/"
+HOST = "http://www.kivano.kg"
+URL = "http://www.kivano.kg"
 
 HEADERS = {
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
@@ -18,27 +18,28 @@ def get_html(url, params=''):
 @csrf_exempt
 def get_data(html):
     soup = BS(html, 'html.parser')
-    items = soup.find_all('div', class_='short_movie_info')
-    films = []
+    items = soup.find_all('div', class_='item product_listbox oh')
+    tires = []
 
     for item in items:
-        films.append(
+        tires.append(
             {
                 'title': URL + item.find('a').get("href"),
-                'title_text': item.find('div', class_='m_title').get_text(),
-                'image': URL + item.find('div', class_='m_thumb').find('img').get('src')
+                'title_text': item.find('div', class_='listbox_title oh').get_text(),
+                'price': item.find('div', class_='listbox_price text-center').get_text(),
+                'image': URL + item.find('div', class_='listbox_img pull-left').find('img').get('src')
             }
         )
-    return films
+    return tires
 
 @csrf_exempt
 def parser():
     html = get_html(URL)
     if html.status_code == 200:
-        films1 = []
+        tires1 = []
         for page in range(0, 1):
-            html = get_html(f'http://www.manascinema.com/movies', params=page)
-            films1.extend(get_data(html.text))
-        return films1
+            html = get_html(f'http://www.kivano.kg/shiny-zimnie', params=page)
+            tires1.extend(get_data(html.text))
+        return tires1
     else:
         raise ValueError('Error in parser...')
